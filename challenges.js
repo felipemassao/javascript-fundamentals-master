@@ -6,9 +6,10 @@
 // forEach(['a','b','c'], callback); → prints a,0,[1,2,3] b,1,[1,2,3] c,2,[1,2,3]
 // For each element in the array, the callback we passed is called. The callback can be customized, but in the above example, the callback prints out the element, index, and entire array.
 function forEach(array, callback) {
-	if (array.length === 0) return;
-	for (i = 0; i < array.length; i++) {
-		callback(array[i], i, array);
+	if (array && !(array.length === 0)) {
+		for (let i = 0; i < array.length; i++) {
+			callback(array[i], i, array);
+		}
 	}
 }
 
@@ -60,11 +61,11 @@ function uniq(array) {
 		forEach(newArray, (newValue) => {
 			if (value === newValue) {
 				found = true;
-				// return;
+				return;
 			}
 		});
+
 		if (!found) newArray.push(value);
-		console.log(newArray);
 	});
 
 	return newArray;
@@ -75,7 +76,18 @@ function uniq(array) {
 //! DO NOT USE THE BUILT-IN INDEXOF function
 // indexOf([11,22,33], 11); → 0
 // indexOf([11,22,33], 5); → -1
-function indexOf(array, value) {}
+function indexOf(array, value) {
+	let idxFound = -1;
+
+	forEach(array, (valueOfArray, idx) => {
+		if (valueOfArray === value) {
+			idxFound = idx;
+			return;
+		}
+	});
+
+	return idxFound;
+}
 
 //! Reduces collection to a value which is the accumulated result of running each element in collection through iteratee, where each successive invocation is supplied the return value of the previous. If accumulator is not provided the first element of collection is used as the initial value.
 //! If a start parameter is not provided, then set the start value as the zeroth index
@@ -85,4 +97,12 @@ function indexOf(array, value) {}
 // reduce([1,2], function(stored,current) {
 //  return stored + current;
 // },1); → 4
-function reduce(array, callback, start) {}
+function reduce(array, callback, start) {
+	let acc = start ? start : array[0];
+
+	forEach(array, (value, idx, self) => {
+		if (!(idx === 0 && !start)) acc = callback(acc, value, idx, self);
+	});
+
+	return acc;
+}

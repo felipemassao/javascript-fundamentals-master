@@ -87,8 +87,50 @@ describe('Tests for uniq() function implementation', () => {
 		expect(uniq(arr)).toEqual([ 1, 2, 3, 4, 5 ]);
 	});
 
-	// it('should mantain the order of the array', () => {
-	// 	const arr = [ 1, 2, 3, 4, 2, 2, 5, 2, 2, 6 ];
-	// 	expect(uniq(arr)).toEqual([ 1, 2, 3, 4, 5, 6 ]);
-	// });
+	it('should mantain the order of the array', () => {
+		const arr = [ 1, 2, 3, 4, 2, 2, 5, 2, 2, 6 ];
+		expect(uniq(arr)).toEqual([ 1, 2, 3, 4, 5, 6 ]);
+	});
+});
+
+describe('Tests for indexOf() function implementation', () => {
+	it('should return a number', () => {
+		const arr = [ 1, 2, 3 ];
+		expect(typeof indexOf(arr, 1)).toBe('number');
+	});
+
+	it('should return 2', () => {
+		const arr = [ 1, 2, 3 ];
+		expect(indexOf(arr, 3)).toBe(2);
+	});
+
+	it('should return -1 if not found', () => {
+		const arr = [ 1, 2, 3 ];
+		expect(indexOf(arr, 100)).toBe(-1);
+	});
+});
+
+describe('Tests for reduce() function implementation', () => {
+	it('should return 6', () => {
+		const arr = [ 1, 2, 3 ];
+		const callback = (acc, value) => (acc += value);
+		expect(reduce(arr, callback)).toBe(6);
+	});
+
+	it('should return 8', () => {
+		const arr = [ 1, 2, 3 ];
+		const callback = (acc, value) => (acc += value);
+		const start = 2;
+		expect(reduce(arr, callback, start)).toBe(8);
+	});
+
+	it('should return an array [ 1, 2, 3 ]', () => {
+		const arr = [ 1, 2, 3 ];
+		const callback = (acc, value) => {
+			acc.push(value);
+			return acc;
+		};
+		const start = [];
+		expect(reduce(arr, callback, start)).toEqual([ 1, 2, 3 ]);
+	});
 });
